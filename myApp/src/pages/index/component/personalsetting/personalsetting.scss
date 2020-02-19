@@ -1,0 +1,92 @@
+body.popup-open {
+    position: fixed;
+    overflow: hidden;
+}
+
+.res_index-container {
+    .res_index-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 15px 0 15px;
+        font-weight: bold;
+
+        .res_index-titleName {
+            .arrow {
+                width: 0;
+                height: 0;
+                border: 10px solid transparent;
+                border-top-color: black;
+                display: inline-block;
+                margin-left: 20px;
+            }
+        }
+    }
+
+    .res_index_card{
+        height: 400px;
+        margin: 30px;
+        box-shadow: darkgrey 10px 10px 30px 5px ;//边框阴影
+        border-radius: 20px;
+
+        .res_index_card_top{
+            width: 100%;
+            height: 50%;
+
+            .res_index_card_info{
+                padding: 30px;
+                font-size: 30px;
+                font-weight: 700;
+            }
+
+            .res_index_card_img{
+                padding-top: 5%;
+                padding-left: 15%;
+            }
+        }
+
+        .res_index_card_mid{
+            padding: 10px 10px 10px 30px;
+            width: 100%;
+            height: 25%;
+        }
+
+        .res_index_card_bot{
+            font-size: small;
+            padding: 10px 10px 10px 30px;
+            width: 100%;
+            height: 15%;
+            .res_index_card_bot_text{
+                color: gray;
+            }
+        }
+
+        
+    }
+    .res_index_list{
+        margin-top: 10px;
+        padding: 5px;
+        .res_index_list_txt{
+            margin-top: 2%;
+            padding-left: 20px;
+            font-size: 35px;
+        }
+
+        .list_hr{
+            margin-left: 17%;
+            margin-bottom: 20px;
+        }
+        
+        .res_index_bort{
+            margin-top: 1%;
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background-color:red;
+            display: block;
+            font-size: 25px;
+            text-align: center;
+        }
+    }
+
+}

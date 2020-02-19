@@ -1,0 +1,38 @@
+body.popup-open {
+    position: fixed;
+    overflow: hidden;
+}
+
+.sub_index-container {
+    height: 100%;
+
+    .res_index-app_content{
+        padding: 10px;
+
+        .res_index_personal_info{
+            padding: 10px;
+            .res_index_personal_info_title{
+                font-size: small;
+                color: gray;
+            }
+
+            .res_index_personal_info_info{
+                font-size: 30px;
+                font-weight: 700;
+            }
+
+        }
+    }
+    
+    .res_index_nav{
+        overflow:auto;
+        font-size: small;
+    }
+
+    .res_index_app_hr{
+        width: 100%;
+        height: 30px;
+        background-color: #C9C4C4;
+    }
+
+}

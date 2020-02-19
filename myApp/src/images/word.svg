@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="74px" viewBox="0 0 58 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>word</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="样式" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-753.000000, -78.000000)">
+            <g id="word" transform="translate(753.000000, 78.132376)">
+                <g>
+                    <polyline id="Shape" fill="#3980FC" points="34.1474574 0 0 0 0 73.6827464 57.9663628 73.6827464 57.9663628 13.1576333 44.7921894 0 34.1474574 0"></polyline>
+                    <polyline id="Shape" fill="#9EC2FF" points="44.7921894 0 44.7921894 13.1576333 57.9663628 13.1576333 44.7921894 0"></polyline>
+                    <rect id="Rectangle-path" x="7.90450402" y="15.7891599" width="42.1573548" height="42.1044265"></rect>
+                    <polygon id="Shape" fill="#FFFFFF" points="36.097235 27.1047246 34.8325144 27.1047246 32.2503764 27.1047246 32.2503764 29.7362512 34.3055474 29.7362512 32.3557698 39.4728999 30.3005987 27.1047246 27.6657641 27.1047246 25.610593 39.4728999 23.1338484 27.1047246 19.2342931 27.1047246 23.8189054 46.5780218 26.4010434 46.5780218 28.9831814 34.8940435 31.5653194 46.5780218 34.1474574 46.5780218 38.7320697 27.1047246"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

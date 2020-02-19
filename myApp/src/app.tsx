@@ -1,13 +1,25 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import Index from './pages/index'
+import { Provider } from '@tarojs/redux'
+import Login from './pages/login/login'
+import dva from './utils/dva'
+import models from './models/index'
+
 
 import './app.scss'
+import 'taro-ui/dist/style/index.scss'
+import 'font-awesome/scss/font-awesome.scss'
+import './icon/iconfont.css'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
+const dvaApp = dva.createApp({
+  initialState: {},
+  models: models,
+});
+const store = dvaApp.getStore();
 
 class App extends Component {
 
@@ -28,7 +40,16 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/login/login',
+      'pages/index/index',
+      'pages/index/component/subList/subList',
+      'pages/index/component/searchFile/searchFile',
+      'pages/index/component/file/file',
+      'pages/index/component/fileSetting/fileSetting',
+      'pages/index/component/workbench/addapp/addapp',
+      'pages/index/component/personalsetting/organization/organization',
+      'pages/index/component/personalsetting/personalsetting',
+      'pages/index/component/workbench/workbench'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -42,7 +63,9 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Index />
+      <Provider store={store}>
+        <Login />
+      </Provider>
     )
   }
 }

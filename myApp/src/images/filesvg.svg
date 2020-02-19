@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="79px" height="69px" viewBox="0 0 79 69" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/预操作区-icon1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="资源管理lvo.1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-401.000000, -113.000000)">
+            <g id="icon/预操作区-icon1" transform="translate(401.000000, 113.383383)">
+                <g transform="translate(0.475526, 0.203030)" id="folder-closed">
+                    <g>
+                        <path d="M37.1571429,8.25714286 L28.9,0 L8.25714286,0 C3.71571429,0 0,3.71571429 0,8.25714286 L0,24.7714286 L77.7142857,24.7714286 L77.7142857,16.5142857 C77.7142857,11.9728571 73.9985714,8.25714286 69.4571429,8.25714286 L37.1571429,8.25714286 Z" id="Shape" fill="#F89F0D"></path>
+                        <path d="M69.9428571,9.71428571 L7.77142857,9.71428571 C3.49714286,9.71428571 0,13.43 0,17.9714286 L0,59.2571429 C0,63.7985714 3.49714286,67.5142857 7.77142857,67.5142857 L69.9428571,67.5142857 C74.2171429,67.5142857 77.7142857,63.7985714 77.7142857,59.2571429 L77.7142857,17.9714286 C77.7142857,13.43 74.2171429,9.71428571 69.9428571,9.71428571 L69.9428571,9.71428571 Z" id="Shape" fill="#FFAB5D"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="74px" viewBox="0 0 58 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>ppt</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="样式" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-645.000000, -78.000000)">
+            <g id="ppt" transform="translate(644.000000, 78.132376)">
+                <g transform="translate(1.245059, 0.000000)">
+                    <polyline id="Shape" fill="#FF7300" points="33.9238241 0 0 0 0 73.3353003 57.5867384 73.3353003 57.5867384 13.0955893 44.4988433 0 33.9238241 0"></polyline>
+                    <polyline id="Shape" fill="#FD9827" points="44.4988433 0 44.4988433 13.0955893 57.5867384 13.0955893 44.4988433 0"></polyline>
+                    <rect id="Rectangle-path" x="7.85273706" y="15.7147072" width="41.8812643" height="41.9058859"></rect>
+                    <path d="M31.3387321,18.2350496 L14.065202,18.2350496 L14.065202,23.1304286 L18.9577047,23.1304286 L18.9577047,55.1002507 L26.3463824,55.1002507 L26.3463824,42.911756 L31.2388851,42.911756 C38.6275627,42.911756 43.5200655,38.016377 43.5200655,30.6233557 C43.6199125,23.2303343 38.6275627,18.2350496 31.3387321,18.2350496 L31.3387321,18.2350496 Z M31.3387321,37.9164713 L26.4462293,37.9164713 L26.4462293,23.2303343 L31.3387321,23.2303343 C33.834907,23.2303343 37.5292458,25.7279767 37.5292458,30.6233557 C37.4293988,35.5187347 33.73506,37.9164713 31.3387321,37.9164713 L31.3387321,37.9164713 Z" id="Shape" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

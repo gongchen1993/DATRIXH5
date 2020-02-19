@@ -1,0 +1,28 @@
+body.popup-open {
+    position: fixed;
+    overflow: hidden;
+}
+
+.sub_index-container {
+    height: 100%;
+
+    .res_index-app_content{
+        padding: 10px;
+    }
+    
+    .app_list{
+        padding: 5px;
+        margin-bottom: 10px;
+        .title{
+            font-size: 35px;
+            margin-bottom: 2px;
+        }
+    
+        .content{
+            font-size: 20px;
+            color: gray;
+        }
+    }
+
+    
+}

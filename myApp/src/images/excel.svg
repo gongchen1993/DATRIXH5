@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="74px" viewBox="0 0 58 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>excel</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="样式" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-548.000000, -78.000000)">
+            <g id="excel" transform="translate(548.000000, 78.132376)">
+                <g>
+                    <polyline id="Shape" fill="#029D55" points="34.1474574 0 0 0 0 73.6827464 57.9663628 73.6827464 57.9663628 13.1576333 44.7921894 0 34.1474574 0"></polyline>
+                    <polyline id="Shape" fill="#FFFFFF" opacity="0.4" points="44.7921894 0 44.7921894 13.1576333 57.9663628 13.1576333 44.7921894 0"></polyline>
+                    <rect id="Rectangle-path" x="7.90450402" y="15.7891599" width="42.1573548" height="42.1044265"></rect>
+                    <polygon id="Shape" fill="#FFFFFF" points="34.1474574 46.5780218 38.0470127 46.5780218 30.9329591 35.8940236 36.782292 27.1047246 32.8827367 27.1047246 28.9831814 32.9467137 25.0836261 27.1047246 21.1840708 27.1047246 27.0334037 35.8940236 19.9193501 46.5780218 22.5014881 46.5780218 23.7662088 46.5780218 28.9831814 46.5780218 28.9831814 43.9464952 25.5051996 43.9464952 28.9831814 38.7887029"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
