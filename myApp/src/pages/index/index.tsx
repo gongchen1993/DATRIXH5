@@ -17,7 +17,7 @@ export default class Index extends Component {
   state = {
     tabList: [
       { title: '首页', iconType: 'home' },
-      { title: '工作台', iconType: 'message' },
+      { title: '应用中心', iconType: 'message' },
       { title: '资源中心', iconType: 'file-generic' },
       { title: '个人中心', iconType: 'user' }
     ],

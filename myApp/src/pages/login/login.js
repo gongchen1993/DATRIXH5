@@ -7,6 +7,7 @@ import { connect } from '@tarojs/redux';
 import './login.scss';
 import logo from '../../images/logo.svg';
 import TYPE_ENV from '../../utils/config.js';
+import { getCookie, setCookie } from '../../utils/utils';
 
 
 @connect(({ login }) => ({
@@ -169,6 +170,7 @@ class Index extends Component {
 
   self_SetLocalStorage(result) {
     Taro.setStorageSync('root_ids', result.info.root_ids);
+    Taro.setStorageSync('link_root', result.info.link_root);
     Taro.setStorageSync('token', result.token);
     Taro.setStorageSync('user_id', result.info.id);
     Taro.removeStorageSync('review');

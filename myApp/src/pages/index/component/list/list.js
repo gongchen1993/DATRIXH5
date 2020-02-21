@@ -7,7 +7,7 @@ import { AtList, AtListItem, AtIcon, AtLoadMore } from 'taro-ui'
 import Model from '../model/model'
 import { connect } from '@tarojs/redux';
 import { IMG_SERVER } from '../../../../utils/config';
-import fileImg from '../../../../images/filesvg.svg';
+import folderImg from '../../../../images/folder.svg';
 import pdfImg from '../../../../images/pdf.svg';
 import pptImg from '../../../../images/ppt.svg';
 import itImg from '../../../../images/it.svg';
@@ -23,16 +23,18 @@ import nodata from '../../../../images/nodata.svg';
 export default class List extends Component {
 
   config = {
-    navigationBarTitleText: ''
+    navigationBarTitleText: '',
+    fileId: ''
   }
 
   state = {
     moreActionModel: false,
   }
-  openModel(type) {
+  openModel(type, item) {
     if (type == 'more') {
       this.setState({
-        moreActionModel: true
+        moreActionModel: true,
+        fileId: item.file_id
       }, () => {
         document.body.classList.add('popup-open');
       })
@@ -53,11 +55,17 @@ export default class List extends Component {
 
   }
   handleTo(type_, isdir, id, title, file_type, record_id) {
-    console.log(type_, isdir, id, title, file_type, record_id)
     const { dispatch } = this.props;
-    if(file_type == '0') {
+    let fullPath = Taro.getStorageSync('fullPath');
+    fullPath = fullPath + '/' + id;
+    Taro.setStorageSync('fullPath', fullPath);
+    let fullPathName = Taro.getStorageSync('fullPathName');
+    fullPathName = fullPathName + '/' + title;
+    Taro.setStorageSync('fullPathName', fullPathName);
+    Taro.setStorageSync('showDir', -1);
+    if (file_type == '0') {
       Taro.setStorageSync('currentName', title);
-      Taro.setStorageSync('fileId', id);
+      Taro.setStorageSync('parentId', id);
       dispatch({
         type: 'catalog/save',
         payload: {
@@ -66,6 +74,7 @@ export default class List extends Component {
       });
       this.props.getSubList({ dispatch, id });
     } else {
+      Taro.setStorageSync('fileId', id);
       Taro.navigateTo({
         url: `/pages/index/component/file/file`
       });
@@ -87,7 +96,7 @@ export default class List extends Component {
     }
     let thumb = ({ type = '', dir = '', id, file_type }) => {
       if (dir) {
-        return fileImg;
+        return folderImg;
       }
       const rand = Math.random().toString(36).substring(2);
       const type_ = type.toLowerCase();
@@ -133,6 +142,28 @@ export default class List extends Component {
         />
       )
     })
+    const cardArr = list.map((item, index) => {
+      const { ext, file_id, filename_KeywordIkPinyin, file_name_KeywordIkPinyin, create_time: time, record_id, is_collect, isdir, is_dir, file_type } = item;
+      const title = filename_KeywordIkPinyin || file_name_KeywordIkPinyin;
+      const like = is_collect || record_id;
+      const dir = isdir || is_dir;
+      return (
+        <View key={index} className='list-item'>
+          <View className='list-item_top'>
+            <Image className='list-item_image' src={thumb({ type: ext, dir, id: file_id, file_type })} />
+          </View>
+          <View className='list-item_content'>
+            <View className='list_item-left'>
+              <Image className='list-item_icon' src={thumb({ type: ext, dir, id: file_id, file_type })} />
+              <Text className='list-item_fileName'>{title}</Text>
+            </View>
+            <View>
+              <Text className='fa fa-ellipsis-v' onClick={this.openModel.bind(this, 'more', item)}></Text>
+            </View>
+          </View>
+        </View>
+      )
+    })
     return (
       <View className='list_index-fileContent'>
         <ScrollView
@@ -148,60 +179,21 @@ export default class List extends Component {
             list.length === 0 ? <Image className='imageStyle' src={nodata} style='height: 100%;width: 100%;text-align: center;vertical-align: middle;' />
               : (type == 'menu' ? <AtList>
                 {listArr}
-                {
+                {/* {
                   list.length >= 20 ?
                     (<AtLoadMore
                       onClick={this.loadMore.bind(this, list.length)}
                       status={this.state.status}
                       style='height: auto;'
                     />) : ('')
-                }
-              </AtList> : <View className='list_index-list'>
-                  {list.map((item, index) => {
-                    return <View key={index} className='list-item'>
-                      <Image className='list-item_image' src={fileImg} />
-                      <View className='list-item_content'>
-                        <View className='list_item-left'>
-                          <Image className='list-item_icon' src={fileImg} />
-                          <Text className='list-item_fileName'>{item.name}</Text>
-                        </View>
-                        <View>
-                          <Text className='fa fa-ellipsis-v' onClick={this.openModel.bind(this, 'more')}></Text>
-                        </View>
-                      </View>
-                    </View>
-                  })}
-                </View>)
+                } */}
+              </AtList> : <View className='list_index-list'>{cardArr}</View>)
           }
-          {/* {type == 'menu' ? <AtList>
-            {list.map((item, index) => {
-              return <AtListItem key={index}
-                title={item.name}
-                note={item.note}
-                thumb={fileImg}
-              />
-            })}
-          </AtList>
-            : <View className='list_index-list'>
-              {list.map((item, index) => {
-                return <View key={index} className='list-item'>
-                  <Image className='list-item_image' src={fileImg} />
-                  <View className='list-item_content'>
-                    <View className='list_item-left'>
-                      <Image className='list-item_icon' src={fileImg} />
-                      <Text className='list-item_fileName'>{item.name}</Text>
-                    </View>
-                    <View>
-                      <Text className='fa fa-ellipsis-v' onClick={this.openModel.bind(this, 'more')}></Text>
-                    </View>
-                  </View>
-                </View>
-              })}
-            </View>} */}
         </ScrollView>
         <Model
           moreActionModel={this.state.moreActionModel}
           closeModel={this.closeModel.bind(this)}
+          fileId={this.state.fileId}
         ></Model>
       </View>
     );

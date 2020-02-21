@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV;
 //   PORT = port;
 // }
 IP = '211.144.114.26';
-PORT = '9004';
+PORT = '21980';
 
 const HTTP = 'http://';
 
@@ -26,8 +26,8 @@ if (window.location.port) {
 
 
 const ENV_TYPE = Taro.getEnv();
-const SERVER = `${HOST}/api/sw`;
-const IMG_SERVER = `${HOST}/datrix4/vw/read.php?fileId=`;
+const SERVER = `${HOST}/api/as`;
+const IMG_SERVER = `${HOST}/datrix4/asvw/read.php?fileId=`;
 const HEAD_SERVER = `${HOST}/datrix4/vw/read.php?preview=avatar&userId=`
 const PDF_SRVER = `${HOST}:${PORT}/pdfpreview/web/viewer.html?`;
 const PUBLIC_FILEID = '4c9184f37cff01bcdc32dc486ec36961';

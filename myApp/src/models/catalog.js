@@ -1,4 +1,4 @@
-import { listFileid, listLik, list, enshrine, delEnshrine, delFile, meInfo, collectList, listCollectfile } from '../service/catalog';
+import { listFileid, listLik, list, enshrine, delEnshrine, delFile, meInfo, collectList, listCollectfile, createFromLink, renameFile } from '../service/catalog';
 
 export default {
   namespace: 'catalog',
@@ -26,6 +26,14 @@ export default {
     currentName: ''
   },
   effects: {
+    * createFromLink({ payload }, { call }) {
+      const data = yield call(createFromLink, payload);
+      return data;
+    },
+    * renameFile({ payload }, { call }) {
+      const data = yield call(renameFile, payload);
+      return data;
+    },
     * listFileid({ payload }, { call }) {
       const data = yield call(listFileid, payload);
       return data;
@@ -69,7 +77,6 @@ export default {
       }
       return data;
     },
-
     * personalSubList({ payload }, { call, put }) {
       const data = yield call(list, payload);
       const { code, result } = data;
@@ -83,7 +90,6 @@ export default {
       }
       return data;
     },
-
     * personalList({ payload }, { call, put }) {
       const data = yield call(list, payload);
       const { code, result } = data;

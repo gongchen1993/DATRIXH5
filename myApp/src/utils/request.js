@@ -16,7 +16,7 @@ export default (options = { method: 'GET', data: {} }) => {
   }
   let serverHost = SERVER;
   if(loginIp){
-    serverHost = `http://${loginIp}/api/sw`;
+    serverHost = `http://${loginIp}/api/as`;
   }
  
   return Taro.request({

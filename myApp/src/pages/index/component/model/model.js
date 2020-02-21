@@ -4,6 +4,11 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Button, Input } from '@tarojs/components';
 import './model.scss'
 import { AtIcon, AtModal, AtModalHeader, AtModalContent, AtModalAction, AtActionSheet } from 'taro-ui'
+import { connect } from '@tarojs/redux';
+
+@connect(({ catalog }) => ({
+  catalog
+}))
 
 export default class Mpdel extends Component {
 
@@ -13,26 +18,34 @@ export default class Mpdel extends Component {
 
   state = {
     addFolderModel: false,
+    renameModal: false,
     sortType: [
       {
         name: '全部',
+        fileType: -1
       },
       {
         name: '文档',
+        fileType: 2
       },
       {
         name: '表格',
+        fileType: 0
       },
       {
         name: '文件',
+        fileType: 0
       },
       {
         name: '图片',
+        fileType: 1
       },
       {
         name: '视频',
+        fileType: 4
       },
     ],
+    fileType: -1,
     sortTypeChecked: 0,
     sortDateType: [
       {
@@ -42,7 +55,9 @@ export default class Mpdel extends Component {
         name: '创建时间',
       },
     ],
-    sortDateTypeChecked: -1
+    sortDateTypeChecked: -1,
+    fileName: '',
+    deleteModal: false
   }
 
   addFolder() {
@@ -57,28 +72,194 @@ export default class Mpdel extends Component {
   selectTitle(item) {
     this.props.selectTitle(item)
   }
+  changeFileName(e) {
+    this.setState({
+      fileName: e.target.value
+    })
+  }
   addCancel() {
     this.setState({
       addFolderModel: false
     })
   }
   addConfirm() {
-    this.setState({
-      addFolderModel: false
-    })
+    if (this.state.fileName) {
+      const { dispatch } = this.props;
+      let parentId = '';
+      Taro.showLoading({
+        mask: true,
+        title: 'loading',
+      });
+      parentId = Taro.getStorageSync('parentId');
+      const link_root = Taro.getStorageSync('link_root')
+      dispatch({
+        type: 'catalog/createFromLink',
+        payload: {
+          parentId: link_root,
+          fileName: this.state.fileName,
+          newFolder: false,
+          isDir: true,
+          fileSize: 0,
+          lParentId: parentId,
+          mode: 0
+        }
+      }).then((s) => {
+        if (s.code == 200) {
+          this.setState({
+            addFolderModel: false
+          })
+          this.showToast('操作成功', 'success');
+          const showDir = Taro.getStorageSync('showDir')
+          this.getFileList(showDir)
+        }
+      })
+    }
+  }
+  showToast(text, type) {
+    Taro.showToast({
+      title: text,
+      icon: type,
+    });
   }
   checkSortType(item, index) {
     this.setState({
-      sortTypeChecked: index
+      sortTypeChecked: index,
+      fileType: item.fileType
     })
   }
   resetSort() {
     this.setState({
-      sortTypeChecked: 0
+      sortTypeChecked: 0,
+      fileType: -1
     })
   }
   confirmSort() {
+    this.sortList()
     this.props.closeModel('sort')
+  }
+  sortList() {
+    const { dispatch } = this.props;
+    const showDir = Taro.getStorageSync('showDir')
+    const id = Taro.getStorageSync('parentId')
+    if (showDir == 0) {
+      dispatch({
+        type: 'catalog/list',
+        payload: {
+          page: 1,
+          pageSize: 1000,
+          parentId: id,
+          mode: 0,
+          showDir: 0,
+          fileType: this.state.fileType
+        }
+      })
+    } else {
+      dispatch({
+        type: 'catalog/publicSubList',
+        payload: {
+          page: 1,
+          pageSize: 1000,
+          parentId: id,
+          mode: 0,
+          showDir: showDir,
+          fileType: this.state.fileType
+        }
+      })
+    }
+  }
+  openRenameModal() {
+    this.props.closeModel('more');
+    this.setState({
+      renameModal: true
+    })
+  }
+  renameCancel() {
+    this.setState({
+      renameModal: false
+    })
+  }
+  renameConfirm() {
+    if (this.state.fileName) {
+      const { fileId, dispatch } = this.props
+      Taro.showLoading({
+        mask: true,
+        title: 'loading',
+      });
+      dispatch({
+        type: 'catalog/renameFile',
+        payload: {
+          fileId: fileId,
+          fileName: this.state.fileName
+        }
+      }).then((s) => {
+        if (s.code == 200) {
+          this.setState({
+            renameModal: false
+          })
+          this.showToast('操作成功', 'success');
+          const showDir = Taro.getStorageSync('showDir')
+          this.getFileList(showDir)
+        }
+      })
+    } else {
+      // this.showToast('名称不能为空')
+    }
+  }
+  getFileList(showDir) {
+    const { dispatch } = this.props
+    const id = Taro.getStorageSync('parentId')
+    dispatch({
+      type: 'catalog/publicSubList',
+      payload: {
+        page: 1,
+        pageSize: 1000,
+        parentId: id,
+        mode: 0,
+        showDir: showDir,
+      }
+    })
+  }
+  showToast(text, type) {
+    Taro.showToast({
+      title: text,
+      icon: type,
+    });
+  }
+  openDeModal() {
+    this.props.closeModel('more')
+    this.setState({
+      deleteModal: true
+    })
+  }
+  closeDeModal() {
+    this.setState({
+      deleteModal: false
+    })
+  }
+  handleDeCancel() {
+    this.closeDeModal()
+  }
+  handleDeConfirm() {
+    const { fileId, dispatch } = this.props
+    Taro.showLoading({
+      mask: true,
+      title: 'loading',
+    });
+    dispatch({
+      type: 'catalog/delFile',
+      payload: {
+        fileId: [fileId],
+      }
+    }).then((s) => {
+      if (s.code == 200) {
+        setTimeout(() => {
+          this.closeDeModal()
+          this.showToast('删除成功', 'success');
+          const showDir = Taro.getStorageSync('showDir')
+          this.getFileList(showDir)
+        }, 2000);
+      }
+    })
   }
 
   componentWillMount() { }
@@ -133,7 +314,7 @@ export default class Mpdel extends Component {
         <AtModal isOpened={this.state.addFolderModel}>
           <AtModalHeader>文件夹</AtModalHeader>
           <AtModalContent>
-            <Input className='model-addFolder' type='text' placeholder='请输入文件夹名称'></Input>
+            <Input className='model-addFolder' type='text' placeholder='请输入文件夹名称' value={this.state.fileName} onchange={this.changeFileName.bind(this)}></Input>
           </AtModalContent>
           <AtModalAction> <Button onClick={this.addCancel.bind(this)}>取消</Button> <Button onClick={this.addConfirm.bind(this)}>创建</Button> </AtModalAction>
         </AtModal>
@@ -162,18 +343,33 @@ export default class Mpdel extends Component {
             <View className='more_model-action'>
               <View className='more_model-actionItem'>设为离线可用</View>
               <View className='more_model-actionItem'>用其他应用打开</View>
-              <View className='more_model-actionItem'>重命名</View>
-              <View className='more_model-actionItem'>添加至</View>
+              <View className='more_model-actionItem' onClick={this.openRenameModal.bind(this)}>重命名</View>
+              {/* <View className='more_model-actionItem'>添加至</View> */}
               <View className='more_model-actionItem'>移动到</View>
               <View className='more_model-actionItem'>复制链接</View>
               <View className='more_model-actionItem'>共享</View>
-              <View className='more_model-actionItem'>移除</View>
+              <View className='more_model-actionItem' onClick={this.openDeModal.bind(this)}>移除</View>
             </View>
             <View className='more_model-cancel' onClick={() => this.props.closeModel('more')}>
               <Text>取消</Text>
             </View>
           </View>
         </AtActionSheet>
+        <AtModal isOpened={this.state.renameModal}>
+          <AtModalContent>
+            <Input className='model-addFolder' type='text' placeholder='请输入名称' value={this.state.fileName} onchange={this.changeFileName.bind(this)}></Input>
+          </AtModalContent>
+          <AtModalAction> <Button onClick={this.renameCancel.bind(this)}>取消</Button> <Button onClick={this.renameConfirm.bind(this)}>确定</Button> </AtModalAction>
+        </AtModal>
+        <AtModal
+          isOpened={this.state.deleteModal}
+          cancelText='取消'
+          confirmText='确认'
+          onClose={this.closeDeModal.bind(this)}
+          onCancel={this.handleDeCancel.bind(this)}
+          onConfirm={this.handleDeConfirm.bind(this)}
+          content='是否删除文件?'
+        />
       </View>
     );
   }

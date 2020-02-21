@@ -59,3 +59,15 @@ export const collectList = data => Request({
   method: 'POST',
   data,
 });
+
+export const createFromLink = data => Request({
+  url: `/file/createFromLink`,
+  method: 'POST',
+  data,
+});
+
+export const renameFile = data => Request({
+  url: `/file/rename`,
+  method: 'POST',
+  data,
+});

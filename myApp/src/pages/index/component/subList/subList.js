@@ -105,6 +105,7 @@ export default class Sublist extends Component {
     }
   }
   openLayout(type) {
+    Taro.setStorageSync('showDir', 1);
     this.setState({
       isOpenModel: true,
       modelType: type
@@ -168,30 +169,55 @@ export default class Sublist extends Component {
 
   }
   backIndex() {
-    Taro.navigateTo({
-      url: `/pages/index/index`
-    });
+    const { dispatch } = this.props;
+    let fullPath = Taro.getStorageSync('fullPath');
+    let fullPathName = Taro.getStorageSync('fullPathName');
+    let pathNum = fullPath.split('/').length - 1;
+    if (pathNum === 1) {
+      Taro.navigateTo({
+        url: `/pages/index/index`
+      });
+    } else {
+      if (pathNum === 2) {
+        Taro.setStorageSync('showDir', 1);
+      } else {
+        Taro.setStorageSync('showDir', -1);
+      }
+      const id = fullPath.split('/')[pathNum - 1];
+      const currentName = fullPathName.split('/')[pathNum - 1];
+      Taro.setStorageSync('fullPath', fullPath.replace('/' + id, ''));
+      Taro.setStorageSync('fullPathName', fullPathName.replace('/' + currentName, ''));
+      Taro.setStorageSync('parentId', id);
+      this.getSubList({ dispatch, id });
+      dispatch({
+        type: 'catalog/save',
+        payload: {
+          currentName: currentName
+        }
+      });
+    }
   }
   getSubList({ dispatch, id }) {
+    const showDir = Taro.getStorageSync('showDir')
     dispatch({
       type: 'catalog/publicSubList',
       payload: {
         page: 1,
-        pageSize: 20,
+        pageSize: 1000,
         parentId: id,
         mode: 0,
-        withCollect: true,
+        showDir: showDir,
       }
     })
   }
 
 
   componentWillMount() {
-    
+
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    let id = Taro.getStorageSync('fileId')
+    let id = Taro.getStorageSync('parentId')
     const currentName = Taro.getStorageSync('currentName')
     dispatch({
       type: 'catalog/save',
@@ -202,7 +228,7 @@ export default class Sublist extends Component {
     this.getSubList({ dispatch, id });
   }
   render() {
-    const { catalog: { subList, currentName }} = this.props;
+    const { catalog: { subList, currentName } } = this.props;
     return (
       <View className='sub_index-container'>
         <View className='sub_index-navbar'>

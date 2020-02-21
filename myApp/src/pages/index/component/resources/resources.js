@@ -1,12 +1,13 @@
 /* eslint-disable react/sort-comp */
 /* eslint-disable import/first */
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import './resources.scss'
 import { AtIcon, AtSearchBar } from 'taro-ui'
 import List from '../list/list'
 import Model from '../model/model'
 import { connect } from '@tarojs/redux';
+import folderImg from '../../../../images/folder.svg';
 
 @connect(({ catalog }) => ({
   catalog
@@ -55,6 +56,7 @@ export default class Resources extends Component {
     checkedType: 0
   }
   openLayout(type) {
+    Taro.setStorageSync('showDir', 1);
     this.setState({
       isOpenModel: true,
       modelType: type
@@ -89,6 +91,7 @@ export default class Resources extends Component {
     }
   }
   openSortModel() {
+    Taro.setStorageSync('showDir', 0);
     this.setState({
       sortModel: true
     }, () => {
@@ -116,10 +119,14 @@ export default class Resources extends Component {
     }
   }
 
-  jumpSubList(fileId, currentName) {
+  jumpSubList(parentId, currentName) {
     const { dispatch } = this.props;
     Taro.setStorageSync('currentName', currentName);
-    Taro.setStorageSync('fileId', fileId);
+    Taro.setStorageSync('parentId', parentId);
+    const fullPath = '/' + parentId;
+    Taro.setStorageSync('fullPath', fullPath);
+    const fullPathName = '/' + currentName;
+    Taro.setStorageSync('fullPathName', fullPathName);
     dispatch({
       type: 'catalog/save',
       payload: {
@@ -132,11 +139,13 @@ export default class Resources extends Component {
   }
 
   showMoreFolder() {
-    const fileId = 'e60653302df41b796eea6e6bcb0ce182';
+    const parentId = '315cebf3d7eac6a7c85a3c3a870db1b1';
     const currentName = this.state.currentName;
-    this.jumpSubList(fileId, currentName)
+    Taro.setStorageSync('showDir', 1);
+    this.jumpSubList(parentId, currentName)
   }
   handleFolder(item) {
+    Taro.setStorageSync('showDir', -1);
     this.jumpSubList(item.file_id, item.filename_KeywordIkPinyin);
   }
 
@@ -158,19 +167,33 @@ export default class Resources extends Component {
       type: 'catalog/publicSubList',
       payload: {
         page: 1,
-        pageSize: 20,
+        pageSize: 1000,
         parentId: id,
         mode: 0,
-        withCollect: true,
+        showDir: 1,
+      }
+    })
+  }
+  getFileList({ dispatch, id }) {
+    dispatch({
+      type: 'catalog/list',
+      payload: {
+        page: 1,
+        pageSize: 1000,
+        parentId: id,
+        mode: 0,
+        showDir: 0,
       }
     })
   }
 
   componentWillMount() { }
-  componentDidMount() { 
+  componentDidMount() {
     const { dispatch } = this.props;
-    let id = 'e60653302df41b796eea6e6bcb0ce182'
+    let id = '315cebf3d7eac6a7c85a3c3a870db1b1'
+    Taro.setStorageSync('parentId', id);
     this.getSubList({ dispatch, id });
+    this.getFileList({ dispatch, id });
   }
   render() {
     const recently = [
@@ -181,7 +204,7 @@ export default class Resources extends Component {
         name: '最近更新'
       }
     ]
-    const { catalog: { subList }} = this.props;
+    const { catalog: { subList, publicList } } = this.props;
     const folderList = subList.slice(0, 6);
     return (
       <View className='resources_index-container'>
@@ -211,7 +234,7 @@ export default class Resources extends Component {
         <View className='res_index-folder'>
           {folderList.map((item, index) => {
             return <View className='res_folder-item' key={index} onClick={this.handleFolder.bind(this, item)}>
-              <Text className='fa fa-folder folder-image'></Text>
+              <Image className='folder-image' src={folderImg} />
               <Text className='folder-name'>{item.filename_KeywordIkPinyin}</Text>
             </View>
           })}
@@ -229,7 +252,7 @@ export default class Resources extends Component {
             })}
           </View>
         </View>
-        <List list={subList} type={this.state.fileType}></List>
+        <List list={publicList} type={this.state.fileType}></List>
         <Model
           type={this.state.modelType}
           isOpen={this.state.isOpenModel}
