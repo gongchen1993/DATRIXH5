@@ -43,7 +43,7 @@
 		"@tarojs/taro-swan": "2.0.3",
 		"@tarojs/taro-tt": "2.0.3",
 		"@tarojs/taro-weapp": "2.0.3",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"babel-runtime": "^6.26.0",
 		"dva-core": "^1.4.0",
 		"dva-loading": "^2.0.6",
